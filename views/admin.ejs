@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <div class="container mx-auto flex flex-col justify-between items-center space-x-5" id="users">
+            <p class="mt-32"></p>
+        </div>
+    </main>
+    <script>
+        if (sessionStorage.getItem("admin") == null) {
+            window.location.href = "/api/adminlogin"
+        }
+        const users = document.querySelector("#users")
+        fetch('/api/getUsers')
+        .then((response) => {
+            return response.json()
+        })
+        .then((data) => {
+            for (let i = 0; i < data.user.length; i++) {
+                const element = data.user[i];
+                console.log(element)
+                users.innerHTML += `
+                    <div class="bg-white p-10 shadow mb-10">
+                        <p id="email" class="font-bold text-md text-dark2">Email: <span class="text-blue-500">${element.email}</span></p>
+                        <p id="password" class="font-bold text-md text-dark2">Password: <span class="text-blue-500">${element.password}</span></p>
+                        <hr />
+                    </div>
+                `
+            }
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+    </script>
+</body>
+</html>
